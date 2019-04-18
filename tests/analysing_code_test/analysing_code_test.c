@@ -109,7 +109,8 @@ int analysing_code_test()
     {
       pointer_reset(data5);
     }
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   } 
 
   // reset the variables
@@ -168,7 +169,13 @@ int analysing_code_test()
         // initialize the arrays
         for (count = 0; count < 100; count++)
         {
-          uninitialized_variable_data.data[count] = (char*)calloc(BUFFER_SIZE,sizeof(char)); 
+          uninitialized_variable_data.data[count] = (char*)calloc(BUFFER_SIZE,sizeof(char));
+
+          if (uninitialized_variable_data.data[count] == NULL)
+          {
+            color_print("Could not allocate the memory needed on the heap","red");
+            exit(0);
+          } 
         }  
         uninitialized_variable_data.count = 0;        
         count = 0;

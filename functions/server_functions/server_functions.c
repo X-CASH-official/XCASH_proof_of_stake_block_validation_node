@@ -74,7 +74,8 @@ int get_current_consensus_nodes_IP_address()
     {
       pointer_reset(message2);
     }
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
 
   // create the message
@@ -195,7 +196,7 @@ int server_receive_data_set_xcash_proof_of_stake_settings(const int CLIENT_SOCKE
   if (data == NULL)
   {
     color_print("Could not allocate all of the variables on the heap\nFunction: server_receive_data_set_xcash_proof_of_stake_settings\nReceived Message: CONSENSUS_NODE_TO_BLOCK_VALIDATION_NODE_RECEIVE_XCASH_PROOF_OF_STAKE_SETTINGS\nSend Message: BLOCK_VALIDATION_NODE_TO_CONSENSUS_NODE_SEND_XCASH_PROOF_OF_STAKE_SETTINGS","red"); 
-    return 0;
+    exit(0);
   }
 
   // define macros
@@ -272,7 +273,8 @@ int server_receive_data_block_producer_create_block(const int CLIENT_SOCKET, cha
     {
       pointer_reset(data2);
     }
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
 
   // check if the memory needed was allocated on the heap successfully
@@ -353,14 +355,8 @@ int server_receive_data_consensus_node_create_block(const int CLIENT_SOCKET, cha
     {
       pointer_reset(data2);
     }
-    return 0;
-  }
-
-  // check if the memory needed was allocated on the heap successfully
-  if (data == NULL)
-  {
-    color_print("Could not allocate all of the variables on the heap\nFunction: server_receive_data_consensus_node_create_block\nReceived Message: CONSENSUS_NODE_TO_BLOCK_VALIDATION_NODE_CONSENSUS_NODE_CREATE_NEW_BLOCK\nSend Message: BLOCK_VALIDATION_NODE_TO_CONSENSUS_NODE_CONSENSUS_NODE_CREATE_NEW_BLOCK","red"); 
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
 
   // verify the message
@@ -450,7 +446,8 @@ int create_server(const int MESSAGE_SETTINGS)
   // check if the memory needed was allocated on the heap successfully
   if (string == NULL)
   {
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
     
   /* Create the socket  

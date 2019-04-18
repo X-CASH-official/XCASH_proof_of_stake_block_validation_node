@@ -41,7 +41,8 @@ int send_wallet_http_request_test()
 
   if (data == NULL)
   {
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
 
   // define macros
@@ -206,6 +207,33 @@ int send_and_receive_data_socket_test()
   #define SEND_AND_RECEIVE_DATA_SOCKET_TOTAL_TEST 2
   #define MESSAGE "{\r\n \"message_settings\": \"XCASH_PROOF_OF_STAKE_TEST_DATA\",\r\n}"
 
+  #define pointer_reset_all \
+  free(message); \
+  message = NULL; \
+  free(public_address); \
+  public_address = NULL; \
+  free(string); \
+  string = NULL;
+
+  // check if the memory needed was allocated on the heap successfully
+  if (message == NULL || public_address == NULL || string == NULL)
+  {
+    if (message != NULL)
+    {
+      pointer_reset(message);
+    }
+    if (public_address != NULL)
+    {
+      pointer_reset(public_address);
+    }
+    if (string != NULL)
+    {
+      pointer_reset(string);
+    }
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
+  }
+
   // reset the variables
   memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
   memset(data_test,0,strnlen(data_test,BUFFER_SIZE));
@@ -330,11 +358,10 @@ int send_and_receive_data_socket_test()
     color_print(TEST_OUTLINE,"red");
     printf("\n\n");
   } 
-  pointer_reset(message);
-  pointer_reset(public_address);
-  pointer_reset(string);
+  pointer_reset_all;
   return count_test;
 
   #undef SEND_AND_RECEIVE_DATA_SOCKET_TOTAL_TEST
   #undef MESSAGE
+  #undef pointer_reset_all
 }

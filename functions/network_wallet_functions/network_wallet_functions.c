@@ -38,7 +38,8 @@ int get_public_address(const int HTTP_SETTINGS)
 
   if (data == NULL)
   {
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
 
   // define macros
@@ -103,7 +104,8 @@ int sign_block_data(char* message, const int HTTP_SETTINGS)
     {
       pointer_reset(data2);
     }
-    return 0;
+    color_print("Could not allocate the memory needed on the heap","red");
+    exit(0);
   }
 
    // define macros
