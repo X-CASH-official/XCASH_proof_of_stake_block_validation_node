@@ -104,7 +104,7 @@ int reset_variables_allocated_on_the_heap_test()
   int settings2 = 1;
 
   // define macros
-  #define RESET_VARAIBLES_ALLOCATED_ON_THE_HEAP_TEST 10
+  #define RESET_VARAIBLES_ALLOCATED_ON_THE_HEAP_TEST 12
   #define GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA "{\r\n  \"id\": \"0\",\r\n  \"jsonrpc\": \"2.0\",\r\n  \"result\": {\r\n    \"blockhashing_blob\": \"GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA\",\r\n    \"blocktemplate_blob\": \"GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA\",\r\n    \"difficulty\": GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA,\r\n    \"expected_reward\": GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA,\r\n    \"height\": GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA,\r\n    \"prev_hash\": \"GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA\",\r\n    \"reserved_offset\": GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA,\r\n    \"status\": \"GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA\",\r\n    \"untrusted\": GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA\r\n  }\r\n}"
   
   if (process_id_file == NULL)
@@ -125,314 +125,11 @@ int reset_variables_allocated_on_the_heap_test()
 
   // write the start test message
   color_print(TEST_OUTLINE,"blue");
-  printf("\033[1;34mreset_variables_allocated_on_the_heap test - Total test: %d\033[0m\n",RESET_VARAIBLES_ALLOCATED_ON_THE_HEAP_TEST);
+  printf("\033[1;34mReset variables allocated on the heap test - Total test: %d\033[0m\n",RESET_VARAIBLES_ALLOCATED_ON_THE_HEAP_TEST);
   color_print(TEST_OUTLINE,"blue");
   printf("\n");
 
   // run the test
-
-  // append_string   
-  // read the current system memory usage
-  previous_system_memory_usage = get_program_memory_usage(process_id_file);
-  for (count = 0; count <= 1000; count++)
-  {
-    // test for using append_string on an empty statically allocated char
-    append_string(string1_test,STR1_TEST);
-    // test for using append_string on a statically allocated char
-    append_string(string1_test," ");
-    append_string(string1_test,STR1_TEST);
-    // test for using append_string on an empty dynamically allocated char
-    append_string(string2_test,STR2_TEST);
-    // test for using append_string on a dynamically allocated char
-    append_string(string2_test," ");
-    memset(&string1_test,0,sizeof(string1_test)); 
-    memset(string2_test,0,strnlen(string2_test,BUFFER_SIZE)); 
-    if (count == 0)
-    {    
-      current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
-    }
-    if (count == 10)
-    {
-      current_system_memory_usage = get_program_memory_usage(process_id_file);
-      if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
-      {
-        color_print("FAILED! append_string has not reset all variables allocated on the heap","red");
-        settings2 = 0;
-        break;
-      }      
-    }
-    if (count == 100)
-    {
-      current_system_memory_usage = get_program_memory_usage(process_id_file);
-      if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
-      {
-        color_print("FAILED! append_string has not reset all variables allocated on the heap","red");
-        settings2 = 0;
-        break;
-      }  
-    }
-    if (count == 1000)
-    {
-      current_system_memory_usage = get_program_memory_usage(process_id_file);
-      if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
-      {
-        color_print("FAILED! append_string has not reset all variables allocated on the heap","red");
-        settings2 = 0;
-        break;
-      }
-      else
-      {
-        color_print("PASSED! append_string has reset all variables allocated on the heap","green");
-        count_test++;
-      } 
-    }    
-  }
-
-
-
-
-  // parse_json_data   
-  // read the current system memory usage
-  if (settings2 == 1)
-  {
-    previous_system_memory_usage = get_program_memory_usage(process_id_file);
-    for (count = 0; count <= 1000; count++)
-    {
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      memset(data_test,0,strnlen(data_test,BUFFER_SIZE));
-      append_string(result_test,GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA);
-      parse_json_data(result_test,"blocktemplate_blob",data_test);
-      if (count == 0)
-      {    
-        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
-      }
-      if (count == 10)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
-        {
-          color_print("FAILED! parse_json_data has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }      
-      }
-      if (count == 100)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
-        {
-          color_print("FAILED! parse_json_data has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }  
-      }
-      if (count == 1000)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
-        {
-          color_print("FAILED! parse_json_data has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }
-        else
-        {
-          color_print("PASSED! parse_json_data has reset all variables allocated on the heap","green");
-          count_test++;
-        } 
-      }    
-    }
-  }
-  else
-  {
-    color_print("All other test will not be run","red");
-  }
-
-
-
-  // random_string   
-  // read the current system memory usage
-  if (settings2 == 1)
-  {
-    previous_system_memory_usage = get_program_memory_usage(process_id_file);
-    for (count = 0; count <= 1000; count++)
-    {
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      random_string(result_test,RANDOM_STRING_LENGTH);
-      if (count == 0)
-      {    
-        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
-      }
-      if (count == 10)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
-        {
-          color_print("FAILED! random_string has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }      
-      }
-      if (count == 100)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
-        {
-          color_print("FAILED! random_string has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }  
-      }
-      if (count == 1000)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
-        {
-          color_print("FAILED! random_string has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }
-        else
-        {
-          color_print("PASSED! random_string has reset all variables allocated on the heap","green");
-          count_test++;
-        } 
-      }    
-    }
-  }
-  else
-  {
-    color_print("All other test will not be run","red");
-  }
-
-
-
-
-  // string_count   
-  // read the current system memory usage
-  if (settings2 == 1)
-  {
-    previous_system_memory_usage = get_program_memory_usage(process_id_file);
-    for (count = 0; count <= 1000; count++)
-    {
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      memcpy(result_test,TEST_OUTLINE,strnlen(TEST_OUTLINE,BUFFER_SIZE));
-      string_count(result_test,"-");
-      string_count(result_test,"--");
-      if (count == 0)
-      {    
-        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
-      }
-      if (count == 10)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
-        {
-          color_print("FAILED! string_count has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }      
-      }
-      if (count == 100)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
-        {
-          color_print("FAILED! string_count has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }  
-      }
-      if (count == 1000)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
-        {
-          color_print("FAILED! string_count has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }
-        else
-        {
-          color_print("PASSED! string_count has reset all variables allocated on the heap","green");
-          count_test++;
-        } 
-      }    
-    }
-  }
-  else
-  {
-    color_print("All other test will not be run","red");
-  }
-
-
-
-  // string_replace 
-  // read the current system memory usage
-  if (settings2 == 1)
-  {
-    previous_system_memory_usage = get_program_memory_usage(process_id_file);
-    for (count = 0; count <= 1000; count++)
-    {
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      append_string(result_test,"{\r\n \"message_settings\": \"string_replace_test\",\r\n}");
-      string_replace(result_test,"string_replace_test","string_replace");
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      append_string(result_test,"{\r\n \"message_settings\": \"string_replace_test\",\r\n}");
-      string_replace(result_test,"\"","\\\"");
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      append_string(result_test,"{\r\n \"message_settings\": \"string_replace_test\",\r\n}");
-      string_replace(result_test,"_test","");
-      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
-      append_string(result_test,"{\r\n \"message_settings\": \"string_replace\",\r\n}");
-      string_replace(result_test,"string_replace_test","");
-      if (count == 0)
-      {    
-        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
-      }
-      if (count == 10)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
-        {
-          color_print("FAILED! string_replace has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }      
-      }
-      if (count == 100)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
-        {
-          color_print("FAILED! string_replace has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }  
-      }
-      if (count == 1000)
-      {
-        current_system_memory_usage = get_program_memory_usage(process_id_file);
-        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
-        {
-          color_print("FAILED! string_replace has not reset all variables allocated on the heap","red");
-          settings2 = 0;
-          break;
-        }
-        else
-        {
-          color_print("PASSED! string_replace has reset all variables allocated on the heap","green");
-          count_test++;
-        } 
-      }    
-    }
-  }
-  else
-  {
-    color_print("All other test will not be run","red");
-  }
-
-
 
   // get_block_template 
   // read the current system memory usage
@@ -444,7 +141,7 @@ int reset_variables_allocated_on_the_heap_test()
       fprintf(stderr,"Current progress for get_block_template: %zu / 1000",count);
       fprintf(stderr,"\r");
       memset(data_test,0,strnlen(data_test,BUFFER_SIZE));
-      get_block_template(data_test,0);
+      get_block_template(data_test,"0",0);
       if (count == 0)
       {    
         current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
@@ -803,6 +500,375 @@ int reset_variables_allocated_on_the_heap_test()
   {
     color_print("All other test will not be run","red");
   }
+
+
+
+  // get_public_address   
+  // read the current system memory usage
+  if (settings2 == 1)
+  {
+    previous_system_memory_usage = get_program_memory_usage(process_id_file);
+    for (count = 0; count <= 1000; count++)
+    {
+      fprintf(stderr,"Current progress for get_public_address: %zu / 1000",count);
+      fprintf(stderr,"\r");
+      get_public_address(0);
+      if (count == 0)
+      {    
+        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
+      }
+      if (count == 10)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
+        {
+          color_print("FAILED! get_public_address has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }      
+      }
+      if (count == 100)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
+        {
+          color_print("FAILED! get_public_address has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }  
+      }
+      if (count == 1000)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
+        {
+          color_print("FAILED! get_public_address has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }
+        else
+        {
+          color_print("PASSED! get_public_address has reset all variables allocated on the heap","green");
+          count_test++;
+        } 
+      }    
+    }
+  }
+  else
+  {
+    color_print("All other test will not be run","red");
+  }
+
+
+
+  // sign_block_data   
+  // read the current system memory usage
+  if (settings2 == 1)
+  {
+    previous_system_memory_usage = get_program_memory_usage(process_id_file);
+    for (count = 0; count <= 1000; count++)
+    {
+      fprintf(stderr,"Current progress for sign_block_data: %zu / 1000",count);
+      fprintf(stderr,"\r");
+      memset(data_test,0,strnlen(data_test,BUFFER_SIZE));
+      sign_block_data(data_test,0);
+      if (count == 0)
+      {    
+        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
+      }
+      if (count == 10)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
+        {
+          color_print("FAILED! sign_block_data has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }      
+      }
+      if (count == 100)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
+        {
+          color_print("FAILED! sign_block_data has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }  
+      }
+      if (count == 1000)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
+        {
+          color_print("FAILED! sign_block_data has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }
+        else
+        {
+          color_print("PASSED! sign_block_data has reset all variables allocated on the heap","green");
+          count_test++;
+        } 
+      }    
+    }
+  }
+  else
+  {
+    color_print("All other test will not be run","red");
+  }
+
+
+
+  // parse_json_data   
+  // read the current system memory usage
+  if (settings2 == 1)
+  {
+    previous_system_memory_usage = get_program_memory_usage(process_id_file);
+    for (count = 0; count <= 1000; count++)
+    {
+      fprintf(stderr,"Current progress for parse_json_data: %zu / 1000",count);
+      fprintf(stderr,"\r");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      memset(data_test,0,strnlen(data_test,BUFFER_SIZE));
+      append_string(result_test,GET_BLOCK_TEMPLATE_RPC_CALL_TEST_DATA);
+      parse_json_data(result_test,"blocktemplate_blob",data_test);
+      if (count == 0)
+      {    
+        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
+      }
+      if (count == 10)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
+        {
+          color_print("FAILED! parse_json_data has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }      
+      }
+      if (count == 100)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
+        {
+          color_print("FAILED! parse_json_data has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }  
+      }
+      if (count == 1000)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
+        {
+          color_print("FAILED! parse_json_data has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }
+        else
+        {
+          color_print("PASSED! parse_json_data has reset all variables allocated on the heap","green");
+          count_test++;
+        } 
+      }    
+    }
+  }
+  else
+  {
+    color_print("All other test will not be run","red");
+  }
+
+
+
+  // random_string   
+  // read the current system memory usage
+  if (settings2 == 1)
+  {
+    previous_system_memory_usage = get_program_memory_usage(process_id_file);
+    for (count = 0; count <= 1000; count++)
+    {
+      fprintf(stderr,"Current progress for random_string: %zu / 1000",count);
+      fprintf(stderr,"\r");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      random_string(result_test,RANDOM_STRING_LENGTH);
+      if (count == 0)
+      {    
+        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
+      }
+      if (count == 10)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
+        {
+          color_print("FAILED! random_string has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }      
+      }
+      if (count == 100)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
+        {
+          color_print("FAILED! random_string has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }  
+      }
+      if (count == 1000)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
+        {
+          color_print("FAILED! random_string has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }
+        else
+        {
+          color_print("PASSED! random_string has reset all variables allocated on the heap","green");
+          count_test++;
+        } 
+      }    
+    }
+  }
+  else
+  {
+    color_print("All other test will not be run","red");
+  }
+
+
+
+
+  // string_count   
+  // read the current system memory usage
+  if (settings2 == 1)
+  {
+    previous_system_memory_usage = get_program_memory_usage(process_id_file);
+    for (count = 0; count <= 1000; count++)
+    {
+      fprintf(stderr,"Current progress for string_count: %zu / 1000",count);
+      fprintf(stderr,"\r");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      memcpy(result_test,TEST_OUTLINE,strnlen(TEST_OUTLINE,BUFFER_SIZE));
+      string_count(result_test,"-");
+      string_count(result_test,"--");
+      if (count == 0)
+      {    
+        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
+      }
+      if (count == 10)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
+        {
+          color_print("FAILED! string_count has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }      
+      }
+      if (count == 100)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
+        {
+          color_print("FAILED! string_count has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }  
+      }
+      if (count == 1000)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
+        {
+          color_print("FAILED! string_count has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }
+        else
+        {
+          color_print("PASSED! string_count has reset all variables allocated on the heap","green");
+          count_test++;
+        } 
+      }    
+    }
+  }
+  else
+  {
+    color_print("All other test will not be run","red");
+  }
+
+
+
+  // string_replace 
+  // read the current system memory usage
+  if (settings2 == 1)
+  {
+    previous_system_memory_usage = get_program_memory_usage(process_id_file);
+    for (count = 0; count <= 1000; count++)
+    {
+      fprintf(stderr,"Current progress for string_replace: %zu / 1000",count);
+      fprintf(stderr,"\r");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      append_string(result_test,"{\r\n \"message_settings\": \"string_replace_test\",\r\n}");
+      string_replace(result_test,"string_replace_test","string_replace");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      append_string(result_test,"{\r\n \"message_settings\": \"string_replace_test\",\r\n}");
+      string_replace(result_test,"\"","\\\"");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      append_string(result_test,"{\r\n \"message_settings\": \"string_replace_test\",\r\n}");
+      string_replace(result_test,"_test","");
+      memset(result_test,0,strnlen(result_test,BUFFER_SIZE));
+      append_string(result_test,"{\r\n \"message_settings\": \"string_replace\",\r\n}");
+      string_replace(result_test,"string_replace_test","");
+      if (count == 0)
+      {    
+        current_memory_usage = get_program_memory_usage(process_id_file) - previous_system_memory_usage;
+      }
+      if (count == 10)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 9 && current_memory_usage > 0)
+        {
+          color_print("FAILED! string_replace has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }      
+      }
+      if (count == 100)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 50 && current_memory_usage > 0)
+        {
+          color_print("FAILED! string_replace has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }  
+      }
+      if (count == 1000)
+      {
+        current_system_memory_usage = get_program_memory_usage(process_id_file);
+        if ((current_system_memory_usage - previous_system_memory_usage) > current_memory_usage * 250 && current_memory_usage > 0)
+        {
+          color_print("FAILED! string_replace has not reset all variables allocated on the heap","red");
+          settings2 = 0;
+          break;
+        }
+        else
+        {
+          color_print("PASSED! string_replace has reset all variables allocated on the heap","green");
+          count_test++;
+        } 
+      }    
+    }
+  }
+  else
+  {
+    color_print("All other test will not be run","red");
+  }
+
   
 
   // write the end test message
@@ -810,7 +876,7 @@ int reset_variables_allocated_on_the_heap_test()
   {
     printf("\n");
     color_print(TEST_OUTLINE,"green");
-    printf("\033[1;32mreset_variables_allocated_on_the_heap test - Passed test: %d, Failed test: 0\033[0m\n",RESET_VARAIBLES_ALLOCATED_ON_THE_HEAP_TEST);
+    printf("\033[1;32mReset variables allocated on the heap test - Passed test: %d, Failed test: 0\033[0m\n",RESET_VARAIBLES_ALLOCATED_ON_THE_HEAP_TEST);
     color_print(TEST_OUTLINE,"green");
     printf("\n\n");
   }
@@ -818,7 +884,7 @@ int reset_variables_allocated_on_the_heap_test()
   {
     printf("\n");
     color_print(TEST_OUTLINE,"red");
-    printf("\033[1;31mreset_variables_allocated_on_the_heap test - Passed test: %d, Failed test: 1\033[0m\n",count_test);
+    printf("\033[1;31mReset variables allocated on the heap test - Passed test: %d, Failed test: 1\033[0m\n",count_test);
     color_print(TEST_OUTLINE,"red");
     printf("\n\n");
     exit(0);
